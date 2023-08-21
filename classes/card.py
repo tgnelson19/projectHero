@@ -3,18 +3,14 @@ import pygame
 class Card():
 
     def __init__(self):
+        
+        ##
+        # Basic attributes for each card
+        ##
         self.health = 20
         self.attack = 15
-        
         self.posX = 250
         self.posY = 900
-        self.moving = False
-        self.offsetX = 0
-        self.offsetY = 0
-
-        
-
-        self.isPlayerCard = True
 
         self.font = pygame.font.Font('media/freeFont.otf', 15)
 
@@ -41,17 +37,12 @@ class Card():
         screen.blit(self.healthText, self.healthRect)
         screen.blit(self.attackText, self.attackRect)
 
-    def cardGrabbed(self, screen):
+    def mouseClicked(self):
         mouseX, mouseY = pygame.mouse.get_pos()
-
+        
         if (self.cardBackgroundBody.collidepoint(mouseX, mouseY)):
-
-            if not self.moving:
-                self.moving = True
-                self.offsetX = mouseX - self.cardBackgroundBody.left
-                self.offsetY = mouseX - self.cardBackgroundBody.left
-
-            self.posX, self.posY = (mouseX + self.offsetX, mouseY + self.offsetY)
+            self.posX = mouseX
+            self.posY = mouseY
 
 
 
