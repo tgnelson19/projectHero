@@ -16,6 +16,7 @@ screen = pygame.display.set_mode([sW, sH]) #Makes a screen that's that wide
 clock = pygame.time.Clock() #Main time keeper
 
 done = False #Determines if the game is over or not
+mouseDown = False
 
 testingCard = Card() #Basic card helper
 testingBackground = Background() #Basic background helper
@@ -29,9 +30,15 @@ while not done: #While the game hasn't been closed (Main loop of the game, deter
 
         if event.type == pygame.KEYDOWN: 
             if event.key == pygame.K_ESCAPE: done = True
-            if event.key == pygame.MOUSEBUTTONDOWN: testingCard.mouseClicked()
+            
+        if event.type == pygame.MOUSEBUTTONDOWN: mouseDown = True
+        if event.type == pygame.MOUSEBUTTONUP: mouseDown = False
+            
+    if (mouseDown):
+        testingCard.mouseClicked()
                     
     testingBackground.drawBackground(screen)
+    testingCard.updateCard()
     testingCard.drawCard(screen)
 
     pygame.display.flip() #Displays currently drawn frame

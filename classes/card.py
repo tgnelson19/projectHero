@@ -12,6 +12,8 @@ class Card():
         self.posX = 250
         self.posY = 900
 
+    def updateCard(self):
+        
         self.font = pygame.font.Font('media/freeFont.otf', 15)
 
         self.healthText= self.font.render(str(self.health), True, (0,255,0))
@@ -28,6 +30,7 @@ class Card():
 
         self.cardBackgroundColor = (50,50,50)
         self.cardBackgroundBody = pygame.Rect(self.posX, self.posY, 80, 100)
+        
 
     def drawCard(self, screen):
 
@@ -36,13 +39,16 @@ class Card():
         
         screen.blit(self.healthText, self.healthRect)
         screen.blit(self.attackText, self.attackRect)
-
+        
     def mouseClicked(self):
         mouseX, mouseY = pygame.mouse.get_pos()
         
         if (self.cardBackgroundBody.collidepoint(mouseX, mouseY)):
-            self.posX = mouseX
-            self.posY = mouseY
+            self.posX = mouseX - 40
+            self.posY = mouseY - 50
+            print("True")
+        else:
+            print("False")
 
 
 
