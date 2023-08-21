@@ -1,18 +1,21 @@
 import pygame
 
 class Card():
-
-    def __init__(self):
+        
+    def __init__(self, HP= 20, ATT= 15, PX= 250, PY= 900, R= 0, G= 0, B= 255): #Parameterized CONSTRUCTOR
         
         ##
         # Basic attributes for each card
         ##
-        self.health = 20
-        self.attack = 15
-        self.posX = 250
-        self.posY = 900
+        self.health = HP
+        self.attack = ATT
+        self.posX = PX
+        self.posY = PY
+        self.R = R
+        self.G = G
+        self.B = B
 
-    def updateCard(self, R, G, B):
+    def updateCard(self):
         
         self.font = pygame.font.Font('media/freeFont.otf', 15)
 
@@ -25,7 +28,7 @@ class Card():
         self.healthRect.topleft = (self.posX, self.posY + 20)
         self.attackRect.topright = (self.posX + 60, self.posY + 20)
 
-        self.cardColor = (R,G,B) #easy 
+        self.cardColor = (self.R,self.G,self.B) #easy 
         self.cardBody = pygame.Rect(self.posX + 10, self.posY + 25, 60, 60)
 
         self.cardBackgroundColor = (50,50,50) 
