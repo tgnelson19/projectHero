@@ -21,6 +21,7 @@ mouseDown = False
 testingCard = Card() #Basic card helper
 testingBackground = Background() #Basic background helper
 
+#playingCardList = [0]*10 #will this work?
 
 while not done: #While the game hasn't been closed (Main loop of the game, determines what is done each frame)
 
@@ -36,9 +37,12 @@ while not done: #While the game hasn't been closed (Main loop of the game, deter
             
     if (mouseDown):
         testingCard.mouseClicked()
-                    
+
+    # for card in playingCardList: #draws 10 cards without any variable for them, no arguments for drawcard yet
+    #     testingCard.drawCard(screen)
+
     testingBackground.drawBackground(screen)
-    testingCard.updateCard()
+    testingCard.updateCard(0, 0, 255) #added integer arguments
     testingCard.drawCard(screen)
 
     pygame.display.flip() #Displays currently drawn frame

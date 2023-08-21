@@ -12,7 +12,7 @@ class Card():
         self.posX = 250
         self.posY = 900
 
-    def updateCard(self):
+    def updateCard(self, R, G, B):
         
         self.font = pygame.font.Font('media/freeFont.otf', 15)
 
@@ -25,10 +25,10 @@ class Card():
         self.healthRect.topleft = (self.posX, self.posY + 20)
         self.attackRect.topright = (self.posX + 60, self.posY + 20)
 
-        self.cardColor = (0,0,255)
+        self.cardColor = (R,G,B) #easy 
         self.cardBody = pygame.Rect(self.posX + 10, self.posY + 25, 60, 60)
 
-        self.cardBackgroundColor = (50,50,50)
+        self.cardBackgroundColor = (50,50,50) 
         self.cardBackgroundBody = pygame.Rect(self.posX, self.posY, 80, 100)
         
 
