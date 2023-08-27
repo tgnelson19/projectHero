@@ -9,36 +9,46 @@ class Card():
         ##
         self.health = HP
         self.attack = ATT
+        
         self.posX = PX
         self.posY = PY
-        self.R = R
-        self.G = G
-        self.B = B
-
-    def updateCard(self):
         
-        self.font = pygame.font.Font('media/freeFont.otf', 15)
-
-        self.healthText= self.font.render(str(self.health), True, (0,255,0))
-        self.attackText= self.font.render(str(self.attack), True, (255,0,0))
+        
+        ##
+        # Asthetic Attributes for the card
+        ##
+        
+        self.RGB = (R, G, B)
+        self.fontSize = 15
+        self.font = pygame.font.Font('media/freeFont.otf', self.fontSize)
+        
+        self.cardBackgroundColor = (50,50,50)
+        
+        self.cardWidth = 80
+        self.cardHeight = 100
+        
+        self.cardInsertWidth = 60
+        self.cardInsertHeight = 60
+        
+        self.healthText = self.font.render(str(self.health), True, (0,255,0))
+        self.attackText = self.font.render(str(self.attack), True, (255,0,0))
 
         self.healthRect = self.healthText.get_rect()
         self.attackRect = self.attackText.get_rect()
 
-        self.healthRect.topleft = (self.posX, self.posY + 20)
-        self.attackRect.topright = (self.posX + 60, self.posY + 20)
-
-        self.cardColor = (self.R,self.G,self.B) #easy 
-        self.cardBody = pygame.Rect(self.posX + 10, self.posY + 25, 60, 60)
-
-        self.cardBackgroundColor = (50,50,50) 
-        self.cardBackgroundBody = pygame.Rect(self.posX, self.posY, 80, 100)
+    def updateCard(self):
+        
+        self.healthRect.topleft = (self.posX + 5, self.posY + self.fontSize - 12)
+        self.attackRect.topright = (self.posX + self.cardWidth - 5, self.posY + self.fontSize - 12)
+        
+        self.cardBody = pygame.Rect(self.posX + ((self.cardWidth - self.cardInsertWidth) / 2), self.posY + 25, self.cardInsertWidth, self.cardInsertHeight)
+        self.cardBackgroundBody = pygame.Rect(self.posX, self.posY, self.cardWidth, self.cardHeight)
         
 
     def drawCard(self, screen):
 
         pygame.draw.rect(screen, self.cardBackgroundColor, self.cardBackgroundBody)
-        pygame.draw.rect(screen, self.cardColor, self.cardBody)
+        pygame.draw.rect(screen, self.RGB, self.cardBody)
         
         screen.blit(self.healthText, self.healthRect)
         screen.blit(self.attackText, self.attackRect)
