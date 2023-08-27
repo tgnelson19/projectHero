@@ -22,7 +22,7 @@ class Card():
         self.fontSize = 15
         self.font = pygame.font.Font('media/freeFont.otf', self.fontSize)
         
-        self.cardBackgroundColor = (50,50,50)
+        self.cardBackgroundColor = (50,50,50) #Grey background color
         
         self.cardWidth = 80
         self.cardHeight = 100
@@ -30,19 +30,28 @@ class Card():
         self.cardInsertWidth = 60
         self.cardInsertHeight = 60
         
+        self.xOff = 0
+        self.yOff = 0
+        
         self.healthText = self.font.render(str(self.health), True, (0,255,0))
         self.attackText = self.font.render(str(self.attack), True, (255,0,0))
 
         self.healthRect = self.healthText.get_rect()
         self.attackRect = self.attackText.get_rect()
-
-    def updateCard(self):
         
         self.healthRect.topleft = (self.posX + 5, self.posY + self.fontSize - 12)
         self.attackRect.topright = (self.posX + self.cardWidth - 5, self.posY + self.fontSize - 12)
         
         self.cardBody = pygame.Rect(self.posX + ((self.cardWidth - self.cardInsertWidth) / 2), self.posY + 25, self.cardInsertWidth, self.cardInsertHeight)
         self.cardBackgroundBody = pygame.Rect(self.posX, self.posY, self.cardWidth, self.cardHeight)
+
+    def updateCard(self):
+        
+        self.healthRect.topleft = (self.posX + 5- self.xOff, self.posY + self.fontSize - 12- self.yOff)
+        self.attackRect.topright = (self.posX + self.cardWidth - 5- self.xOff, self.posY + self.fontSize - 12- self.yOff)
+        
+        self.cardBody = pygame.Rect(self.posX + ((self.cardWidth - self.cardInsertWidth) / 2)- self.xOff, self.posY + 25- self.yOff, self.cardInsertWidth, self.cardInsertHeight)
+        self.cardBackgroundBody = pygame.Rect(self.posX - self.xOff, self.posY- self.yOff, self.cardWidth, self.cardHeight)
         
 
     def drawCard(self, screen):
@@ -53,16 +62,10 @@ class Card():
         screen.blit(self.healthText, self.healthRect)
         screen.blit(self.attackText, self.attackRect)
         
-    def mouseClicked(self):
-        mouseX, mouseY = pygame.mouse.get_pos()
+    def mouseClicked(self, mouseX, mouseY):
         
-        if (self.cardBackgroundBody.collidepoint(mouseX, mouseY)):
-            self.posX = mouseX - 40
-            self.posY = mouseY - 50
-            print("True")
-        else:
-            print("False")
-
+        self.posX = mouseX - (self.cardWidth / 2)
+        self.posY = mouseY - (self.cardHeight / 2)
 
 
         
