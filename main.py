@@ -79,7 +79,7 @@ while not done: #While the game hasn't been closed (Main loop of the game, deter
             card.yOff = 0      
             
     for card in cardList:
-        card.updateCard(card) #foreach card would go here instead to get constant updates 
+        card.updateCard() #foreach card would go here instead to get constant updates 
         card.drawCard(screen)
 
     pygame.display.flip() #Displays currently drawn frame
