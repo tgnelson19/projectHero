@@ -1,9 +1,8 @@
-import pygame
+import pygame 
 
 class Card():
         
-    def __init__(self, HP= 20, ATT= 15, PX= 250, PY= 900, R= 0, G= 0, B= 255): #Parameterized CONSTRUCTOR
-        
+    def __init__(self, HP= 20, ATT= 15, PX= 250, PY= 900, R= 0, G= 0, B= 255): #Parameterized CONSTRUCTOR 
         ##
         # Basic attributes for each card
         ##
@@ -45,12 +44,18 @@ class Card():
         self.cardBody = pygame.Rect(self.posX + ((self.cardWidth - self.cardInsertWidth) / 2), self.posY + 25, self.cardInsertWidth, self.cardInsertHeight)
         self.cardBackgroundBody = pygame.Rect(self.posX, self.posY, self.cardWidth, self.cardHeight)
 
-    def updateCard(self):
+    def updateCard(self, card):
         
         self.healthRect.topleft = (self.posX + 5- self.xOff, self.posY + self.fontSize - 12- self.yOff)
         self.attackRect.topright = (self.posX + self.cardWidth - 5- self.xOff, self.posY + self.fontSize - 12- self.yOff)
+                
+        mouseX, mouseY = pygame.mouse.get_pos()
         
-        self.cardBody = pygame.Rect(self.posX + ((self.cardWidth - self.cardInsertWidth) / 2)- self.xOff, self.posY + 25- self.yOff, self.cardInsertWidth, self.cardInsertHeight)
+        if (card.cardBackgroundBody.collidepoint(mouseX, mouseY)): #If card is hovered over
+            self.cardBody = pygame.Rect(self.posX + ((self.cardWidth - self.cardInsertWidth) / 2)- self.xOff, self.posY + 35 - self.yOff, self.cardInsertWidth, self.cardInsertHeight) #changed ypos based on mouse clicked on self                     
+        else:      
+            self.cardBody = pygame.Rect(self.posX + ((self.cardWidth - self.cardInsertWidth) / 2)- self.xOff, self.posY + 30- self.yOff, self.cardInsertWidth, self.cardInsertHeight) #draws normal position if not hovered over
+
         self.cardBackgroundBody = pygame.Rect(self.posX - self.xOff, self.posY- self.yOff, self.cardWidth, self.cardHeight)
         
 
@@ -59,7 +64,7 @@ class Card():
         pygame.draw.rect(screen, self.cardBackgroundColor, self.cardBackgroundBody)
         pygame.draw.rect(screen, self.RGB, self.cardBody)
         
-        screen.blit(self.healthText, self.healthRect)
+        screen.blit(self.healthText, self.healthRect) 
         screen.blit(self.attackText, self.attackRect)
         
     def mouseClicked(self, mouseX, mouseY):
