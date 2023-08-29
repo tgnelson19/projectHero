@@ -5,6 +5,7 @@ import pygame
 from classes.card import Card
 from classes.background import Background
 from classes.variables import Variables
+from classes.buttons import Buttons
 
 ###
 # Window Initializers
@@ -23,7 +24,15 @@ currentHeldCard = 0
 
 cardList = [testingCard, greenCard]
 
+cardMakerButton = Buttons(500, 30, 100, 120, 0, 200, 0)
+
+battlerButton = Buttons(650, 60, 100, 50, 200, 100, 0)
+
+buttonList = [cardMakerButton, battlerButton]
+
 testingBackground = Background() #Basic background helper
+
+cardsOnTheField = [0,0,0,0,0,0,0,0]
 
 while not vars.done: #While the game hasn't been closed (Main loop of the game, determines what is done each frame)
 
@@ -31,10 +40,26 @@ while not vars.done: #While the game hasn't been closed (Main loop of the game, 
 
     vars.eventHandler()
 
+    for button in buttonList:
+        button.drawButton(screen)
+
+    if cardMakerButton.isClicked(vars.mouseDown):
+        newCard = Card()
+        cardList.append(newCard)
+
     for card in cardList:
-        card.updateCard() #foreach card would go here instead to get constant updates 
+        card.updateCard() 
         card.drawCard(screen)
-        card.cardMovementHandler(vars.mouseDown)
+        if card.cardMovementHandler(vars.mouseDown, cardsOnTheField) == 0:
+            cardList.remove(card)
+            del card
+
+    if battlerButton.isClicked(vars.mouseDown):
+        for i in range(4):
+            if cardsOnTheField[i] != 0 and cardsOnTheField[i+4] != 0:
+                cardsOnTheField[i].health -= cardsOnTheField[i+4].attack
+            if cardsOnTheField[7-i] != 0 and cardsOnTheField[3-i] != 0:
+                cardsOnTheField[7-i].health -= cardsOnTheField[3-i].attack
 
     pygame.display.flip() #Displays currently drawn frame
     screen.fill(pygame.Color(0,0,0)) #Clears screen with a black color

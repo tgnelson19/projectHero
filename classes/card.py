@@ -2,7 +2,7 @@ import pygame
 
 class Card():
         
-    def __init__(self, HP= 20, ATT= 15, PX= 250, PY= 900, R= 0, G= 0, B= 255): #Parameterized CONSTRUCTOR
+    def __init__(self, HP= 20, ATT= 15, PX= 200, PY= 800, R= 0, G= 0, B= 255): #Parameterized CONSTRUCTOR
         
         ##
         # Basic attributes for each card
@@ -12,6 +12,8 @@ class Card():
         
         self.posX = PX
         self.posY = PY
+
+        self.slotTheCardIsIn = "NA"
         
         ##
         # Asthetic Attributes for the card
@@ -27,12 +29,11 @@ class Card():
         
         self.defaultCardWidth = 80
         self.defaultCardHeight = 100
+        self.defaultCardInsertWidth = 60
 
         self.cardWidth = 80
         self.cardHeight = 100
-        
         self.cardInsertWidth = 60
-        self.cardInsertHeight = 60
         
         self.xOff = 0
         self.yOff = 0
@@ -46,17 +47,23 @@ class Card():
         self.healthRect.topleft = (self.posX + 5, self.posY + self.fontSize - 12)
         self.attackRect.topright = (self.posX + self.cardWidth - 5, self.posY + self.fontSize - 12)
         
-        self.cardBody = pygame.Rect(self.posX + ((self.cardWidth - self.cardInsertWidth) / 2), self.posY + 25, self.cardInsertWidth, self.cardInsertHeight)
+        self.cardBody = pygame.Rect(self.posX + ((self.cardWidth - self.cardInsertWidth) / 2), self.posY + 25, self.cardInsertWidth, self.cardInsertWidth)
         self.cardBackgroundBody = pygame.Rect(self.posX, self.posY, self.cardWidth, self.cardHeight)
 
     def updateCard(self):
+
+        self.healthText = self.font.render(str(self.health), True, (0,255,0))
+        self.attackText = self.font.render(str(self.attack), True, (255,0,0))
+
+        self.healthRect = self.healthText.get_rect()
+        self.attackRect = self.attackText.get_rect()
         
-        self.healthRect.topleft = (self.posX + 5- self.xOff, self.posY + self.fontSize - 12- self.yOff)
-        self.attackRect.topright = (self.posX + self.cardWidth - 5- self.xOff, self.posY + self.fontSize - 12- self.yOff)
+        self.healthRect.topleft = (self.posX + 5- self.xOff, self.posY + self.fontSize - 12 - self.yOff)
+        self.attackRect.topright = (self.posX + self.cardWidth - 5 - self.xOff, self.posY + self.fontSize - 12- self.yOff)
         
-        self.cardBody = pygame.Rect(self.posX + ((self.cardWidth - self.cardInsertWidth) / 2)- self.xOff, self.posY + 25- self.yOff, self.cardInsertWidth, self.cardInsertHeight)
+        self.cardBody = pygame.Rect(self.posX + ((self.cardWidth - self.cardInsertWidth) / 2) - self.xOff, self.posY + 25 - self.yOff, self.cardInsertWidth, self.cardInsertWidth)
         self.cardBackgroundBody = pygame.Rect(self.posX - self.xOff, self.posY- self.yOff, self.cardWidth, self.cardHeight)
-        
+
 
 
     def drawCard(self, screen):
@@ -69,7 +76,7 @@ class Card():
 
 
 
-    def cardMovementHandler(self, mouseDown):
+    def cardMovementHandler(self, mouseDown, cardsOnTheField):
         
         mouseX, mouseY = pygame.mouse.get_pos()
 
@@ -80,7 +87,17 @@ class Card():
                 if self.cardBackgroundBody.collidepoint(pos[0] + (self.cardWidth / 2), pos[1] + (self.cardHeight / 2)):
                     self.posX = pos[0] + 10
                     self.posY = pos[1] 
-            
+
+                    try:
+                        cardsOnTheField[cardsOnTheField.index(self)] = 0
+                        cardsOnTheField[self.cardSlotPositions.index(pos)] = self
+                    except ValueError:
+                        cardsOnTheField[self.cardSlotPositions.index(pos)] = self
+
+            if self.cardBackgroundBody.collidepoint(500 + (self.cardWidth / 2), 660 + (self.cardHeight / 2)):
+                del self
+                return 0
+
             currentHeldCard = 0 #If mouse is not down, not holding any card
 
         elif currentHeldCard != 0:
@@ -89,10 +106,11 @@ class Card():
         
         if (self.cardBackgroundBody.collidepoint(mouseX, mouseY) and ((currentHeldCard == 0) or (currentHeldCard == self))):
             
-            self.cardWidth = self.defaultCardWidth * 1.2
+            self.cardWidth = self.defaultCardWidth * 1.25
             self.cardHeight = self.defaultCardHeight * 1.2 
+            self.cardInsertWidth = self.defaultCardInsertWidth * 1.2
             
-            self.xOff = self.defaultCardWidth / 10
+            self.xOff = self.defaultCardWidth / 10  + 2
             self.yOff = self.defaultCardHeight / 10
 
             if (mouseDown): #If card is clicked 
@@ -102,6 +120,7 @@ class Card():
             
             self.cardWidth = self.defaultCardWidth
             self.cardHeight = self.defaultCardHeight
+            self.cardInsertWidth = self.defaultCardInsertWidth
             
             self.xOff = 0
             self.yOff = 0      

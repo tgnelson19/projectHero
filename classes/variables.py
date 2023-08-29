@@ -3,7 +3,7 @@ import pygame
 class Variables():
 
     def __init__(self):
-        self.sW, self.sH = 500, 1000 #Determines (s)creen (W)idth, and (s)creen (H)eigth
+        self.sW, self.sH = 800, 950 #Determines (s)creen (W)idth, and (s)creen (H)eigth
 
         self.clock = pygame.time.Clock() #Main time keeper
 

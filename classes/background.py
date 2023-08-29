@@ -19,6 +19,7 @@ class Background():
         self.cardSpotBottomLane2 = pygame.Rect(150, 660, 80, 100)
         self.cardSpotBottomLane3 = pygame.Rect(270, 660, 80, 100)
         self.cardSpotBottomLane4 = pygame.Rect(390, 660, 80, 100)
+        self.cardDestroyer = pygame.Rect(500, 660, 100, 120)
 
         self.cardPlacementSlotList = [self.cardSpotTopLane1, self.cardSpotTopLane2,self.cardSpotTopLane3,self.cardSpotTopLane4,self.cardSpotBottomLane1,self.cardSpotBottomLane2,self.cardSpotBottomLane3,self.cardSpotBottomLane4]
         
@@ -28,3 +29,5 @@ class Background():
 
         for cardSlot in self.cardPlacementSlotList:
             pygame.draw.rect(screen,(20,20,20), cardSlot) 
+
+        pygame.draw.rect(screen, (200,0,0), self.cardDestroyer)
