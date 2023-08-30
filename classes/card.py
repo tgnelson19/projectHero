@@ -77,10 +77,10 @@ class Card():
 
 
     def cardMovementHandler(self, mouseDown, cardsOnTheField):
-        
-        mouseX, mouseY = pygame.mouse.get_pos()
 
         global currentHeldCard
+        
+        mouseX, mouseY = pygame.mouse.get_pos()
         
         if not mouseDown:
             for pos in self.cardSlotPositions:

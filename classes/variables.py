@@ -12,7 +12,7 @@ class Variables():
 
         self.tempAttack = 1
         self.tempHealth = 1
-
+        
         self.fontSize = 30
         self.font = pygame.font.Font('media/freeFont.otf', self.fontSize)
         
@@ -21,6 +21,16 @@ class Variables():
 
         self.healthRect = self.healthText.get_rect()
         self.attackRect = self.attackText.get_rect()
+
+        self.playerHealth = 20
+        self.enemyHealth = 20
+
+        self.playerHealthRender = self.font.render(str(self.playerHealth), True, (255,255,255))
+        self.enemyHealthRender = self.font.render(str(self.enemyHealth), True, (255,255,255))
+
+        self.playerHealthRect = self.playerHealthRender.get_rect()
+        self.enemyHealthRect = self.enemyHealthRender.get_rect()
+        
 
         
 
@@ -34,6 +44,24 @@ class Variables():
                 
             if event.type == pygame.MOUSEBUTTONDOWN: self.mouseDown = True
             if event.type == pygame.MOUSEBUTTONUP: self.mouseDown = False
+
+
+    def updatePlayerAndEnemyHealth(self, screen, playerDamaged, enemyDamaged):
+        self.playerHealth -= playerDamaged
+        self.enemyHealth -= enemyDamaged
+
+        self.playerHealthRender = self.font.render("Player HP : " + str(self.playerHealth), True, (255,255,255))
+        self.enemyHealthRender = self.font.render("Enemy HP : " + str(self.enemyHealth), True, (255,255,255))
+
+        self.playerHealthRect = self.playerHealthRender.get_rect()
+        self.enemyHealthRect = self.enemyHealthRender.get_rect()
+
+        self.playerHealthRect.topleft = (500, 30)
+        self.enemyHealthRect.topleft = (500, 100)
+
+        screen.blit(self.playerHealthRender, self.playerHealthRect)
+        screen.blit(self.enemyHealthRender, self.enemyHealthRect)
+
 
     def updateHealthAttackAndUpdate(self, screen):
 
