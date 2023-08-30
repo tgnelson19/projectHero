@@ -11,9 +11,9 @@ from classes.buttons import Buttons
 # Window Initializers
 ###
 
-vars = Variables()
-
 pygame.init() #Initializes a window
+
+vars = Variables()
 
 screen = pygame.display.set_mode([vars.sW, vars.sH]) #Makes a screen that's that wide
 
@@ -24,11 +24,18 @@ currentHeldCard = 0
 
 cardList = [testingCard, greenCard]
 
-cardMakerButton = Buttons(500, 30, 100, 120, 0, 200, 0)
+cardMakerButton = Buttons(500, 520, 100, 120, 0, 200, 0, "Make", 15, 0,0,0)
 
-battlerButton = Buttons(650, 60, 100, 50, 200, 100, 0)
+battlerButton = Buttons(650, 550, 100, 50, 200, 100, 0, "Battle", 15, 0,0,0)
 
-buttonList = [cardMakerButton, battlerButton]
+healthUpButton = Buttons(500, 250, 25, 25,0,255,0,"^", 20,0,0,0)
+healthDownButton = Buttons(535, 250, 25, 25,255,0,0,"v", 20,0,0,0)
+attackUpButton = Buttons(600, 250, 25, 25,0,255,0,"^", 20,0,0,0)
+attackDownButton = Buttons(635, 250, 25, 25,255,0,0,"v", 20,0,0,0)
+
+
+
+buttonList = [cardMakerButton, battlerButton, healthUpButton, healthDownButton, attackUpButton,attackDownButton]
 
 testingBackground = Background() #Basic background helper
 
@@ -40,11 +47,24 @@ while not vars.done: #While the game hasn't been closed (Main loop of the game, 
 
     vars.eventHandler()
 
+    if healthUpButton.isClicked(vars.mouseDown):
+        vars.tempHealth += 1
+    if healthDownButton.isClicked(vars.mouseDown):
+        vars.tempHealth -= 1
+    if attackUpButton.isClicked(vars.mouseDown):
+        vars.tempAttack += 1
+    if attackDownButton.isClicked(vars.mouseDown):
+        vars.tempAttack -= 1
+    
+    vars.updateHealthAttackAndUpdate(screen)
+
+
+
     for button in buttonList:
         button.drawButton(screen)
 
     if cardMakerButton.isClicked(vars.mouseDown):
-        newCard = Card()
+        newCard = Card(vars.tempHealth, vars.tempAttack, 200, 800, 0, 0, 255)
         cardList.append(newCard)
 
     for card in cardList:
