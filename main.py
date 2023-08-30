@@ -61,6 +61,7 @@ while not vars.done: #While the game hasn't been closed (Main loop of the game, 
 
 
     for button in buttonList:
+        button.isHoveredOver()
         button.drawButton(screen)
 
     if cardMakerButton.isClicked(vars.mouseDown):

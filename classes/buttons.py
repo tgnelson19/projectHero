@@ -6,6 +6,9 @@ class Buttons():
         self.posX = topLeftX
         self.posY = topLeftY
 
+        self.width = width
+        self.height = height
+
         self.buttonRect = pygame.Rect(topLeftX, topLeftY, width, height)
         self.buttonRGB = (R,G,B)
         self.canBeClickedAgain = True
@@ -20,6 +23,15 @@ class Buttons():
     def drawButton(self, screen):
         pygame.draw.rect(screen,self.buttonRGB, self.buttonRect) 
         screen.blit(self.textRender, self.textRect)
+
+    def isHoveredOver(self):
+        mouseX, mouseY = pygame.mouse.get_pos()
+        if self.buttonRect.collidepoint(mouseX,mouseY):
+            leftGap = (self.buttonRect.width*1.2 - self.buttonRect.width)/2
+            topGap = (self.buttonRect.height*1.2 - self.buttonRect.height)/2
+            self.buttonRect = pygame.Rect(self.posX - leftGap, self.posY - topGap, self.width * 1.2, self.height * 1.2)
+        else:
+            self.buttonRect = pygame.Rect(self.posX, self.posY, self.width, self.height)
 
     def isClicked(self, mouseDown):
         mouseX, mouseY = pygame.mouse.get_pos()
